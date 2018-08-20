@@ -9,10 +9,26 @@
 import Foundation
 import CoreData
 
+protocol ParserDelegate: class {
+    func uniqueIds(for modelType: NSManagedObject.Type) -> [NSObject]
+    func adjust(propertyName: String, for modelType: NSManagedObject.Type) -> String
+}
+
+extension ParserDelegate {
+    func adjust(propertyName: String, in modelType: NSManagedObject.Type) -> String {
+        return propertyName
+    }
+}
+
 final class ParserJSONToCoreData {
+    //MARK: Properties
     private let daoBase: DAOCoreData
-    init(_ dao: DAOCoreData) {
+    private weak var delegate: ParserDelegate?
+
+    //MARK: Initializer
+    init(_ dao: DAOCoreData, delegate: ParserDelegate?) {
         self.daoBase = dao
+        self.delegate = delegate
     }
 
     //MARK: - Public methods
