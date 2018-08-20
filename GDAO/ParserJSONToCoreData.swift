@@ -41,7 +41,7 @@ final class ParserJSONToCoreData {
 
     // MARK: - Private/Fileprivate methods
     // MARK: AddEntity methods
-    fileprivate func addEntityArray<C: NSManagedObject>(_ entities: [[String: NSObject]], type: C.Type) -> [C] {
+    private func addEntityArray<C: NSManagedObject>(_ entities: [[String: NSObject]], type: C.Type) -> [C] {
         let cdArray: [C] = entities.compactMap({ entity in
             let childObj = addEntity(entity, type: type)
             return childObj
@@ -50,7 +50,7 @@ final class ParserJSONToCoreData {
         return cdArray
     }
 
-    fileprivate func addEntity<C: NSManagedObject>(_ entity: [String: NSObject], type: C.Type) -> C? {
+    private func addEntity<C: NSManagedObject>(_ entity: [String: NSObject], type: C.Type) -> C? {
         guard
             entity.isEmpty == false,
             //TODO: get identifiers!
@@ -96,7 +96,7 @@ final class ParserJSONToCoreData {
         return model
     }
 
-    private func classType(relationName: String, in model: NSManagedObject) -> (Bool, NSManagedObject.Type) {
+    private func classType<C: NSManagedObject>(relationName: String, in model: C) -> (Bool, NSManagedObject.Type) {
         let modelEntity = model.entity
         let modelAttributes = modelEntity.relationshipsByName
         let entityDescription = modelAttributes[relationName]
@@ -134,7 +134,7 @@ final class ParserJSONToCoreData {
         return nil
     }
 
-    private func classType(propertyName: String, in model: NSManagedObject) -> AnyClass {
+    private func classType<C: NSManagedObject>(propertyName: String, in model: C) -> AnyClass {
         let modelEntity = model.entity
         let modelAttributes = modelEntity.attributesByName
         guard
@@ -147,7 +147,7 @@ final class ParserJSONToCoreData {
     }
 
     private func createProperty<C: NSManagedObject>(propertyValue: NSObject, propertyClassName: String, model: C) -> NSObject? {
-        let type: AnyClass = classType(propertyName: propertyClassName, in: model)
+        let type: AnyObject.Type = classType(propertyName: propertyClassName, in: model)
         guard propertyValue.isKind(of: NSNull.self) == false else {
             return nil
         }
