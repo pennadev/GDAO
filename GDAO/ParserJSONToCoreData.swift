@@ -15,9 +15,10 @@ final class ParserJSONToCoreData {
         self.daoBase = dao
     }
 
+    //MARK: - Public methods
     func parseAsync<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type, completion: @escaping ([C]?) -> Void) {
-        daoBase.perform {
-            let parsedManagedObjects = self.addEntityArray(array, type: rootType)
+        daoBase.perform { [weak self] in
+            let parsedManagedObjects = self?.addEntityArray(array, type: rootType)
             completion(parsedManagedObjects)
         }
     }
