@@ -1,6 +1,6 @@
 //
-//  JSONToCoreDataParser.swift
-//  TestAriva
+//  ParserJSONToCoreData.swift
+//  GDAOBase
 //
 //  Created by IonVoda on 12/08/2018.
 //  Copyright © 2018 IonVoda. All rights reserved.
@@ -9,24 +9,24 @@
 import Foundation
 import CoreData
 
-final class JSONToCoreDataParser {
-    private let daoBase: GDAOBase
-    init(_ dao: GDAOBase) {
+final class ParserJSONToCoreData {
+    private let daoBase: DAOCoreData
+    init(_ dao: DAOCoreData) {
         self.daoBase = dao
     }
 
-    func parseAsync<C: NSManagedObject>(_ array: [[String: NSObject]], rootElementClass: C.Type, completion: @escaping ([C]?) -> Void) {
+    func parseAsync<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type, completion: @escaping ([C]?) -> Void) {
         daoBase.perform {
-            let parsedManagedObjects = self.addEntityArray(array, rootModel: rootElementClass)
+            let parsedManagedObjects = self.addEntityArray(array, type: rootType)
             completion(parsedManagedObjects)
         }
     }
 
     // MARK: - Private/Fileprivate methods
     // MARK: AddEntity methods
-    fileprivate func addEntityArray<C: NSManagedObject>(_ entities: [[String: NSObject]], rootModel: C.Type) -> [C] {
+    fileprivate func addEntityArray<C: NSManagedObject>(_ entities: [[String: NSObject]], type: C.Type) -> [C] {
         let cdArray: [C] = entities.compactMap({ entity in
-            let childObj = addEntity(entity, type: rootModel)
+            let childObj = addEntity(entity, type: type)
             return childObj
         })
 
@@ -41,7 +41,13 @@ final class JSONToCoreDataParser {
             return nil
         }
 
-        let (_, model) = daoBase.createOrFetchObjectWithIds(type, uuids: ["id": id])
+        let model: C
+        if let fetchedModel = daoBase.fetch(entityType: type, uniqueIdentifiers: ["id": id]) {
+            model = fetchedModel
+        } else {
+            model = daoBase.insert(entityType: type)
+        }
+
         let propertiesKeySet: Set<String> = Set(model.entity.propertiesByName.keys)
         let relationsKeySet: Set<String> = Set(model.entity.relationshipsByName.keys)
 
@@ -100,7 +106,7 @@ final class JSONToCoreDataParser {
             }
             return entity
         } else if let objectToProcess = propertyValue as? [[String: NSObject]] {
-            let array = addEntityArray(objectToProcess, rootModel: type)
+            let array = addEntityArray(objectToProcess, type: type)
             let newChild = Set(array)
             if let oldRelationSet = model.value(forKey: relationClassName) as? Set<NSManagedObject> {
                 return newChild.union(oldRelationSet) as NSSet

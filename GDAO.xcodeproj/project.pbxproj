@@ -10,8 +10,8 @@
 		917794E8212595A70041714F /* GDAO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 917794DE212595A60041714F /* GDAO.framework */; };
 		917794ED212595A70041714F /* GDAOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794EC212595A70041714F /* GDAOTests.swift */; };
 		917794EF212595A70041714F /* GDAO.h in Headers */ = {isa = PBXBuildFile; fileRef = 917794E1212595A60041714F /* GDAO.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		917794FA212595E30041714F /* GDAOBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794F8212595E30041714F /* GDAOBase.swift */; };
-		917794FB212595E30041714F /* JSONToCoreDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794F9212595E30041714F /* JSONToCoreDataParser.swift */; };
+		917794FA212595E30041714F /* DAOCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794F8212595E30041714F /* DAOCoreData.swift */; };
+		917794FB212595E30041714F /* ParserJSONToCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794F9212595E30041714F /* ParserJSONToCoreData.swift */; };
 		9177951621275A340041714F /* GDAO.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 917794FE212596320041714F /* GDAO.xcdatamodeld */; };
 		9177951721275A3D0041714F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794FC212595FD0041714F /* CoreDataStack.swift */; };
 		9177951821275A440041714F /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779501212734270041714F /* User+CoreDataClass.swift */; };
@@ -37,8 +37,8 @@
 		917794E7212595A70041714F /* GDAOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GDAOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		917794EC212595A70041714F /* GDAOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDAOTests.swift; sourceTree = "<group>"; };
 		917794EE212595A70041714F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		917794F8212595E30041714F /* GDAOBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDAOBase.swift; sourceTree = "<group>"; };
-		917794F9212595E30041714F /* JSONToCoreDataParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONToCoreDataParser.swift; sourceTree = "<group>"; };
+		917794F8212595E30041714F /* DAOCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAOCoreData.swift; sourceTree = "<group>"; };
+		917794F9212595E30041714F /* ParserJSONToCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserJSONToCoreData.swift; sourceTree = "<group>"; };
 		917794FC212595FD0041714F /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		917794FF212596320041714F /* Test.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Test.xcdatamodel; sourceTree = "<group>"; };
 		91779501212734270041714F /* User+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -88,8 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				917794E1212595A60041714F /* GDAO.h */,
-				917794F8212595E30041714F /* GDAOBase.swift */,
-				917794F9212595E30041714F /* JSONToCoreDataParser.swift */,
+				917794F8212595E30041714F /* DAOCoreData.swift */,
+				917794F9212595E30041714F /* ParserJSONToCoreData.swift */,
 				917794E2212595A60041714F /* Info.plist */,
 			);
 			path = GDAO;
@@ -228,10 +228,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9177951621275A340041714F /* GDAO.xcdatamodeld in Sources */,
-				917794FB212595E30041714F /* JSONToCoreDataParser.swift in Sources */,
+				917794FB212595E30041714F /* ParserJSONToCoreData.swift in Sources */,
 				9177951A21275A440041714F /* Profile+CoreDataClass.swift in Sources */,
 				9177951921275A440041714F /* User+CoreDataProperties.swift in Sources */,
-				917794FA212595E30041714F /* GDAOBase.swift in Sources */,
+				917794FA212595E30041714F /* DAOCoreData.swift in Sources */,
 				9177951721275A3D0041714F /* CoreDataStack.swift in Sources */,
 				9177951B21275A440041714F /* Profile+CoreDataProperties.swift in Sources */,
 				9177951821275A440041714F /* User+CoreDataClass.swift in Sources */,

@@ -1,6 +1,6 @@
 //
 //  CoreDataStack.swift
-//  TestAriva
+//  GDAOBase
 //
 //  Created by IonVoda on 11/08/2018.
 //  Copyright © 2018 IonVoda. All rights reserved.
