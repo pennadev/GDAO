@@ -18,6 +18,7 @@
 		9177951921275A440041714F /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779502212734270041714F /* User+CoreDataProperties.swift */; };
 		9177951A21275A440041714F /* Profile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779503212734270041714F /* Profile+CoreDataClass.swift */; };
 		9177951B21275A440041714F /* Profile+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779504212734270041714F /* Profile+CoreDataProperties.swift */; };
+		919D9EC3212C8F2C00191E76 /* NSManagedObject+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919D9EC2212C8F2C00191E76 /* NSManagedObject+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		91779502212734270041714F /* User+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		91779503212734270041714F /* Profile+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+CoreDataClass.swift"; sourceTree = "<group>"; };
 		91779504212734270041714F /* Profile+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		919D9EC2212C8F2C00191E76 /* NSManagedObject+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 				917794E1212595A60041714F /* GDAO.h */,
 				917794F8212595E30041714F /* DAOCoreData.swift */,
 				917794F9212595E30041714F /* ParserJSONToCoreData.swift */,
+				919D9EC2212C8F2C00191E76 /* NSManagedObject+Ext.swift */,
 				917794E2212595A60041714F /* Info.plist */,
 			);
 			path = GDAO;
@@ -235,6 +238,7 @@
 				9177951721275A3D0041714F /* CoreDataStack.swift in Sources */,
 				9177951B21275A440041714F /* Profile+CoreDataProperties.swift in Sources */,
 				9177951821275A440041714F /* User+CoreDataClass.swift in Sources */,
+				919D9EC3212C8F2C00191E76 /* NSManagedObject+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

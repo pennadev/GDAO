@@ -9,10 +9,18 @@
 import Foundation
 import CoreData
 
+
 class DAOCoreData {
     private let managedObjectContext: NSManagedObjectContext
+
     init(managedObjectContext: NSManagedObjectContext) {
         self.managedObjectContext = managedObjectContext
+    }
+
+    func perform(_ completion: @escaping ()->Void) {
+        managedObjectContext.perform {
+            completion()
+        }
     }
 
     func fetch<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, sorts: [NSSortDescriptor]? = nil) -> C? {
@@ -51,7 +59,7 @@ class DAOCoreData {
 
     func fetchAll<C: NSManagedObject>(entityType: C.Type, uniqueIdentifiers: [String: NSObject], fetchLimit: Int? = nil) -> [C]? {
         guard uniqueIdentifiers.isEmpty == false else {
-            fatalError("Please provide Unique Identifers for fetch")
+            fatalError("Please provide Unique Identifers for fetch in classType: \(entityType)")
         }
 
         let sortDescr = [NSSortDescriptor(key: uniqueIdentifiers.keys.first, ascending: true)]
@@ -71,14 +79,14 @@ class DAOCoreData {
         let managedObject = NSEntityDescription.insertNewObject(forEntityName: typeStr, into: managedObjectContext)
 
         guard let managedObjectC = managedObject as? C else {
-            fatalError("object: \(managedObject) cannot be casted to classType: \(typeStr)")
+            fatalError("NSManagedObject: \(managedObject) cannot be casted to classType: \(typeStr)")
         }
 
         return managedObjectC
     }
 
     //DELETE
-    func delete(_ managedObject: NSManagedObject) {
+    func delete<C: NSManagedObject>(_ managedObject: C) {
         managedObjectContext.delete(managedObject)
     }
 
@@ -105,17 +113,11 @@ class DAOCoreData {
                 result = try managedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
             }
             if let objectIDArray = result?.result as? [NSManagedObjectID], objectIDArray.isEmpty == false {
-                let changes: [AnyHashable : Any] = [NSDeletedObjectsKey : objectIDArray]
+                let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: objectIDArray]
                 NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [managedObjectContext])
             }
         } catch {
             fatalError(error.localizedDescription)
-        }
-    }
-
-    func perform(_ completion: @escaping ()->Void) {
-        managedObjectContext.perform {
-            completion()
         }
     }
 }
