@@ -17,7 +17,7 @@ extension NSManagedObject {
         guard
             let relationClassStr = entityDescription?.destinationEntity?.name,
             let classType = NSClassFromString(relationClassStr) as? NSManagedObject.Type else {
-                fatalError("Missing propertyName:\(relationshipName) in NSManagedObjectEntity:\(modelEntity)")
+                fatalError("Missing relationshipName:\(relationshipName) in NSManagedObjectEntity:\(modelEntity)")
         }
 
         return classType

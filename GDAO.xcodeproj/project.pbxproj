@@ -7,18 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		659841F2DD85F79464C7748D /* Pods_GDAOTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 656E2B38A8A3C5437C6F5AB8 /* Pods_GDAOTests.framework */; };
 		917794E8212595A70041714F /* GDAO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 917794DE212595A60041714F /* GDAO.framework */; };
-		917794ED212595A70041714F /* GDAOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794EC212595A70041714F /* GDAOTests.swift */; };
+		917794ED212595A70041714F /* TestCoreDataStackAndModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794EC212595A70041714F /* TestCoreDataStackAndModels.swift */; };
 		917794EF212595A70041714F /* GDAO.h in Headers */ = {isa = PBXBuildFile; fileRef = 917794E1212595A60041714F /* GDAO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		917794FA212595E30041714F /* DAOCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794F8212595E30041714F /* DAOCoreData.swift */; };
 		917794FB212595E30041714F /* ParserJSONToCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794F9212595E30041714F /* ParserJSONToCoreData.swift */; };
-		9177951621275A340041714F /* GDAO.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 917794FE212596320041714F /* GDAO.xcdatamodeld */; };
-		9177951721275A3D0041714F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794FC212595FD0041714F /* CoreDataStack.swift */; };
-		9177951821275A440041714F /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779501212734270041714F /* User+CoreDataClass.swift */; };
-		9177951921275A440041714F /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779502212734270041714F /* User+CoreDataProperties.swift */; };
-		9177951A21275A440041714F /* Profile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779503212734270041714F /* Profile+CoreDataClass.swift */; };
-		9177951B21275A440041714F /* Profile+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779504212734270041714F /* Profile+CoreDataProperties.swift */; };
 		919D9EC3212C8F2C00191E76 /* NSManagedObject+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919D9EC2212C8F2C00191E76 /* NSManagedObject+Ext.swift */; };
+		919D9EC5212EDC7800191E76 /* TestManagedObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919D9EC4212EDC7800191E76 /* TestManagedObjectExtension.swift */; };
+		919D9EC6212EDF1400191E76 /* User+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779501212734270041714F /* User+CoreDataClass.swift */; };
+		919D9EC7212EDF1800191E76 /* User+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779502212734270041714F /* User+CoreDataProperties.swift */; };
+		919D9EC8212EDF1C00191E76 /* Profile+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779503212734270041714F /* Profile+CoreDataClass.swift */; };
+		919D9EC9212EDF2000191E76 /* Profile+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91779504212734270041714F /* Profile+CoreDataProperties.swift */; };
+		919D9ECA212EFEB300191E76 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917794FC212595FD0041714F /* CoreDataStack.swift */; };
+		919D9ECB212EFEBA00191E76 /* GDAO.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 917794FE212596320041714F /* GDAO.xcdatamodeld */; };
+		919D9ECD212F005200191E76 /* UserWithProfile.json in Resources */ = {isa = PBXBuildFile; fileRef = 919D9ECC212F005200191E76 /* UserWithProfile.json */; };
+		919D9ECF212F120E00191E76 /* TestParserJSONToCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919D9ECE212F120E00191E76 /* TestParserJSONToCoreData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,11 +36,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1AF616F4D4A0D846A5AB0D82 /* Pods-GDAOTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDAOTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GDAOTests/Pods-GDAOTests.debug.xcconfig"; sourceTree = "<group>"; };
+		656E2B38A8A3C5437C6F5AB8 /* Pods_GDAOTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GDAOTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		917794DE212595A60041714F /* GDAO.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GDAO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		917794E1212595A60041714F /* GDAO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GDAO.h; sourceTree = "<group>"; };
 		917794E2212595A60041714F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		917794E7212595A70041714F /* GDAOTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GDAOTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		917794EC212595A70041714F /* GDAOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GDAOTests.swift; sourceTree = "<group>"; };
+		917794EC212595A70041714F /* TestCoreDataStackAndModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCoreDataStackAndModels.swift; sourceTree = "<group>"; };
 		917794EE212595A70041714F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		917794F8212595E30041714F /* DAOCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAOCoreData.swift; sourceTree = "<group>"; };
 		917794F9212595E30041714F /* ParserJSONToCoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserJSONToCoreData.swift; sourceTree = "<group>"; };
@@ -47,6 +53,10 @@
 		91779503212734270041714F /* Profile+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+CoreDataClass.swift"; sourceTree = "<group>"; };
 		91779504212734270041714F /* Profile+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Profile+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		919D9EC2212C8F2C00191E76 /* NSManagedObject+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Ext.swift"; sourceTree = "<group>"; };
+		919D9EC4212EDC7800191E76 /* TestManagedObjectExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestManagedObjectExtension.swift; sourceTree = "<group>"; };
+		919D9ECC212F005200191E76 /* UserWithProfile.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = UserWithProfile.json; sourceTree = "<group>"; };
+		919D9ECE212F120E00191E76 /* TestParserJSONToCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestParserJSONToCoreData.swift; sourceTree = "<group>"; };
+		F5DD0527A34F0D108C49D2F7 /* Pods-GDAOTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GDAOTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GDAOTests/Pods-GDAOTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,18 +72,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				917794E8212595A70041714F /* GDAO.framework in Frameworks */,
+				659841F2DD85F79464C7748D /* Pods_GDAOTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2396059B6670C0950B659AAA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1AF616F4D4A0D846A5AB0D82 /* Pods-GDAOTests.debug.xcconfig */,
+				F5DD0527A34F0D108C49D2F7 /* Pods-GDAOTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		74CAD36ACE36DB669B787A1A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				656E2B38A8A3C5437C6F5AB8 /* Pods_GDAOTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		917794D4212595A60041714F = {
 			isa = PBXGroup;
 			children = (
 				917794E0212595A60041714F /* GDAO */,
 				917794EB212595A70041714F /* GDAOTests */,
 				917794DF212595A60041714F /* Products */,
+				2396059B6670C0950B659AAA /* Pods */,
+				74CAD36ACE36DB669B787A1A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,11 +131,14 @@
 		917794EB212595A70041714F /* GDAOTests */ = {
 			isa = PBXGroup;
 			children = (
-				91779509212734710041714F /* CDModelTest */,
-				917794EC212595A70041714F /* GDAOTests.swift */,
 				917794FC212595FD0041714F /* CoreDataStack.swift */,
+				91779509212734710041714F /* CDModelTest */,
+				917794EC212595A70041714F /* TestCoreDataStackAndModels.swift */,
+				919D9EC4212EDC7800191E76 /* TestManagedObjectExtension.swift */,
 				917794EE212595A70041714F /* Info.plist */,
 				917794FE212596320041714F /* GDAO.xcdatamodeld */,
+				919D9ECC212F005200191E76 /* UserWithProfile.json */,
+				919D9ECE212F120E00191E76 /* TestParserJSONToCoreData.swift */,
 			);
 			path = GDAOTests;
 			sourceTree = "<group>";
@@ -157,9 +190,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 917794F5212595A70041714F /* Build configuration list for PBXNativeTarget "GDAOTests" */;
 			buildPhases = (
+				0B553F1AA0B8AD32D02D4EF5 /* [CP] Check Pods Manifest.lock */,
 				917794E3212595A70041714F /* Sources */,
 				917794E4212595A70041714F /* Frameworks */,
 				917794E5212595A70041714F /* Resources */,
+				AC642F4C4C9EB14E32479079 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -220,24 +255,60 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				919D9ECD212F005200191E76 /* UserWithProfile.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0B553F1AA0B8AD32D02D4EF5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GDAOTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AC642F4C4C9EB14E32479079 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GDAOTests/Pods-GDAOTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CwlCatchException/CwlCatchException.framework",
+				"${BUILT_PRODUCTS_DIR}/CwlPreconditionTesting/CwlPreconditionTesting.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CwlCatchException.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CwlPreconditionTesting.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GDAOTests/Pods-GDAOTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		917794D9212595A60041714F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9177951621275A340041714F /* GDAO.xcdatamodeld in Sources */,
 				917794FB212595E30041714F /* ParserJSONToCoreData.swift in Sources */,
-				9177951A21275A440041714F /* Profile+CoreDataClass.swift in Sources */,
-				9177951921275A440041714F /* User+CoreDataProperties.swift in Sources */,
 				917794FA212595E30041714F /* DAOCoreData.swift in Sources */,
-				9177951721275A3D0041714F /* CoreDataStack.swift in Sources */,
-				9177951B21275A440041714F /* Profile+CoreDataProperties.swift in Sources */,
-				9177951821275A440041714F /* User+CoreDataClass.swift in Sources */,
 				919D9EC3212C8F2C00191E76 /* NSManagedObject+Ext.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,7 +317,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				917794ED212595A70041714F /* GDAOTests.swift in Sources */,
+				919D9ECA212EFEB300191E76 /* CoreDataStack.swift in Sources */,
+				919D9EC5212EDC7800191E76 /* TestManagedObjectExtension.swift in Sources */,
+				919D9EC8212EDF1C00191E76 /* Profile+CoreDataClass.swift in Sources */,
+				919D9ECF212F120E00191E76 /* TestParserJSONToCoreData.swift in Sources */,
+				917794ED212595A70041714F /* TestCoreDataStackAndModels.swift in Sources */,
+				919D9ECB212EFEBA00191E76 /* GDAO.xcdatamodeld in Sources */,
+				919D9EC7212EDF1800191E76 /* User+CoreDataProperties.swift in Sources */,
+				919D9EC9212EDF2000191E76 /* Profile+CoreDataProperties.swift in Sources */,
+				919D9EC6212EDF1400191E76 /* User+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +515,7 @@
 		};
 		917794F6212595A70041714F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AF616F4D4A0D846A5AB0D82 /* Pods-GDAOTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -455,6 +535,7 @@
 		};
 		917794F7212595A70041714F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5DD0527A34F0D108C49D2F7 /* Pods-GDAOTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

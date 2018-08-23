@@ -68,9 +68,14 @@ final class ParserJSONToCoreData {
     }
 
     //MARK: - Public methods
+    func parse<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type) -> [C]? {
+        let parsedManagedObjects = self.addEntityArray(array, modelType: rootType)
+        return parsedManagedObjects
+    }
+
     func parseAsync<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type, completion: @escaping ([C]?) -> Void) {
         daoBase.perform { [weak self] in
-            let parsedManagedObjects = self?.addEntityArray(array, modelType: rootType)
+            let parsedManagedObjects = self?.parse(array, rootType: rootType)
             completion(parsedManagedObjects)
         }
     }
@@ -111,21 +116,22 @@ final class ParserJSONToCoreData {
             model = daoBase.insert(entityType: modelType)
         }
 
-        let propertiesKeySet: Set<String> = Set(model.entity.propertiesByName.keys)
-        let relationsKeySet: Set<String> = Set(model.entity.relationshipsByName.keys)
+        let allPropertiesKeySet: Set<String> = Set(model.entity.propertiesByName.keys)
+        let relationshipsKeySet: Set<String> = Set(model.entity.relationshipsByName.keys)
+        let propertiesKeySet: Set<String> = allPropertiesKeySet.subtracting(relationshipsKeySet)
 
         jsonEntity.forEach{ (jsonPropertyName, value) in
             let adjustedPropertyNameToCoreData = delegate.adjust(propertyName: jsonPropertyName, for: modelType)
-            if propertiesKeySet.contains(adjustedPropertyNameToCoreData) {
-                guard let propertyValue = delegate.adjust(propertyValue: value, propertyClassName: adjustedPropertyNameToCoreData, for: model)  else {
-                    fatalError("Adjusting property:\(adjustedPropertyNameToCoreData) in NSManagedObject ClassName:\(modelType)")
-                }
-                model.setValue(propertyValue, forKey: adjustedPropertyNameToCoreData)
-            } else if relationsKeySet.contains(adjustedPropertyNameToCoreData) {
+            if relationshipsKeySet.contains(adjustedPropertyNameToCoreData) {
                 guard let relationValue = createRelation(propertyValue: value, relationshipClassName: adjustedPropertyNameToCoreData, parent: model) else {
                     fatalError("Missing property:\(adjustedPropertyNameToCoreData) in NSManagedObject ClassName:\(modelType)")
                 }
                 model.setValue(relationValue, forKey: adjustedPropertyNameToCoreData)
+            } else if propertiesKeySet.contains(adjustedPropertyNameToCoreData) {
+                guard let propertyValue = delegate.adjust(propertyValue: value, propertyClassName: adjustedPropertyNameToCoreData, for: model)  else {
+                    fatalError("Adjusting property:\(adjustedPropertyNameToCoreData) in NSManagedObject ClassName:\(modelType)")
+                }
+                model.setValue(propertyValue, forKey: adjustedPropertyNameToCoreData)
             }
         }
 

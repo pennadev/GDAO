@@ -29,7 +29,9 @@ class DAOCoreData {
     }
 
     func fetchAll<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, sorts: [NSSortDescriptor]? = nil, batchSize: Int? = nil, fetchLimit: Int? = nil) -> [C] {
-        let fetchRequest = C.fetchRequest()
+        let typeStr = String(describing: entityType)
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: typeStr)
+//        let fetchRequest = C.fetchRequest()
 
         fetchRequest.sortDescriptors = sorts ?? []
         if let batchSize = batchSize {
