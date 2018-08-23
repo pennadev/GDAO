@@ -1,0 +1,6 @@
+os: osx
+podfile: Podfile
+language: swift
+xcode_project: GDAO.xcodeproj # path to your xcodeproj folder
+xcode_scheme: GDAOTests
+xcode_destination: platform=iOS Simulator,OS=11.3,name=iPad Pro (9.7-inch)
