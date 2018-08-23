@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/vadeara/GDAO.svg?branch=master)](https://travis-ci.org/vadeara/GDAO)
 
 # GDAO
-The GDAO(G* Data Access Object) is an project that provides an abstract interface to CoreData and can be extend to support other persistence mechanism.
+The GDAO(G* Data Access Object) is an project that provides an abstract interface to CoreData and can be extend to support other persistence mechanism. Currently the focus is on CoreData DAO
 
 By mapping application calls to the persistence layer, the DAO provides some specific data operations without exposing details of the database. 
 This isolation supports the single responsibility principle. 
