@@ -34,20 +34,28 @@ class TestManagedObjectExtension: XCTestCase {
         XCTAssertNotNil(coreDataStack)
     }
 
-    func testCoreDataClass_User_DoNotContainModuleName() {
+    func testCoreDataClass_User_ContainModuleName() {
         let moduleName = NSStringFromClass(User.self).split(separator: ".").first
         XCTAssertNotNil(moduleName)
 
-        let userClass: AnyClass? = NSClassFromString(moduleName! + "." + "User")
+        let userClassModule: AnyClass? = NSClassFromString(moduleName! + "." + "User")
+        XCTAssertNotNil(userClassModule)
+        XCTAssertTrue(userClassModule == User.self)
+
+        let userClass: AnyClass? = NSClassFromString("User")
         XCTAssertNil(userClass)
         XCTAssertFalse(userClass == User.self)
     }
 
-    func testCoreDataClass_Profile_DoNotContainModuleName() {
+    func testCoreDataClass_Profile_ContainModuleName() {
         let moduleName = NSStringFromClass(Profile.self).split(separator: ".").first
         XCTAssertNotNil(moduleName)
 
-        let profileClass: AnyClass? = NSClassFromString(moduleName! + "." + "Profile")
+        let profileClassModule: AnyClass? = NSClassFromString(moduleName! + "." + "Profile")
+        XCTAssertNotNil(profileClassModule)
+        XCTAssertTrue(profileClassModule == Profile.self)
+
+        let profileClass: AnyClass? = NSClassFromString("Profile")
         XCTAssertNil(profileClass)
         XCTAssertFalse(profileClass == Profile.self)
     }

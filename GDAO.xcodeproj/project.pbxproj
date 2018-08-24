@@ -135,10 +135,10 @@
 				91779509212734710041714F /* CDModelTest */,
 				917794EC212595A70041714F /* TestCoreDataStackAndModels.swift */,
 				919D9EC4212EDC7800191E76 /* TestManagedObjectExtension.swift */,
-				917794EE212595A70041714F /* Info.plist */,
-				917794FE212596320041714F /* GDAO.xcdatamodeld */,
 				919D9ECC212F005200191E76 /* UserWithProfile.json */,
 				919D9ECE212F120E00191E76 /* TestParserJSONToCoreData.swift */,
+				917794EE212595A70041714F /* Info.plist */,
+				917794FE212596320041714F /* GDAO.xcdatamodeld */,
 			);
 			path = GDAOTests;
 			sourceTree = "<group>";

@@ -15,7 +15,7 @@ extension NSManagedObject {
         let modelAttributes = modelEntity.relationshipsByName
         let entityDescription = modelAttributes[relationshipName]
         guard
-            let relationClassStr = entityDescription?.destinationEntity?.name,
+            let relationClassStr = entityDescription?.destinationEntity?.managedObjectClassName,
             let classType = NSClassFromString(relationClassStr) as? NSManagedObject.Type else {
                 fatalError("Missing relationshipName:\(relationshipName) in NSManagedObjectEntity:\(modelEntity)")
         }

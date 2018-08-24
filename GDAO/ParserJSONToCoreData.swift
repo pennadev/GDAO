@@ -34,7 +34,10 @@ final class ParserJSONToCoreData {
         }
 
         func uniqueIds(for modelType: NSManagedObject.Type) -> [String] {
-            return delegate?.uniqueIds(for: modelType) ?? []
+            guard let ids = delegate?.uniqueIds(for: modelType) else {
+                fatalError("Check delegate: \(delegate.debugDescription), missing identifiers in NSManagedObject ClassName:\(modelType)")
+            }
+            return ids
         }
 
         func adjust(propertyName: String, for modelType: NSManagedObject.Type) -> String {
@@ -87,8 +90,6 @@ final class ParserJSONToCoreData {
             let childObj = addEntity(entity, modelType: modelType)
             return childObj
         }
-
-        
         return cdArray
     }
 
@@ -104,7 +105,7 @@ final class ParserJSONToCoreData {
 
         let identifiersDic = identifiers.reduce([String: NSObject]()) { (result, jsonPropertyName) in
             let coreDataPropertyName: String = delegate.adjust(propertyName: jsonPropertyName, for: modelType)
-
+            
             var resultDic = result
             resultDic[coreDataPropertyName] = jsonEntity[jsonPropertyName]
             return resultDic
@@ -135,7 +136,6 @@ final class ParserJSONToCoreData {
                 model.setValue(propertyValue, forKey: adjustedPropertyNameToCoreData)
             }
         }
-
         return model
     }
 
@@ -157,7 +157,6 @@ final class ParserJSONToCoreData {
                 fatalError("Property:\(relationshipClassName) in NSManagedObject:\(parent)")
             }
         }
-
         return nil
     }
 
