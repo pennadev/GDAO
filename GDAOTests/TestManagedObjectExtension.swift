@@ -60,7 +60,7 @@ class TestManagedObjectExtension: XCTestCase {
         XCTAssertFalse(profileClass == Profile.self)
     }
 
-    func testCoreData_Profile_HasRelationship() {
+    func testCoreData_Profile_HasRelationshipWith_User() {
         let backgroudContext = coreDataStack.newBackgroundContext
         let profileTypeStr = String(describing: Profile.self)
         XCTAssertEqual(profileTypeStr, "Profile")
@@ -75,7 +75,7 @@ class TestManagedObjectExtension: XCTestCase {
         XCTAssertTrue(userRelationDescription == User.self)
     }
 
-    func testCoreData_Profile_HasRelationshipToOneWithUser() {
+    func testCoreData_Profile_HasRelationshipToOneWith_User() {
         let backgroudContext = coreDataStack.newBackgroundContext
         let profileTypeStr = String(describing: Profile.self)
         XCTAssertEqual(profileTypeStr, "Profile")
@@ -89,7 +89,7 @@ class TestManagedObjectExtension: XCTestCase {
         XCTAssertFalse(isToMany)
     }
 
-    func testCoreData_User_HasRelationship() {
+    func testCoreData_User_HasRelationshipWith_profileSet() {
         let backgroudContext = coreDataStack.newBackgroundContext
         let userTypeStr = String(describing: User.self)
         XCTAssertEqual(userTypeStr, "User")
@@ -102,6 +102,20 @@ class TestManagedObjectExtension: XCTestCase {
         let profileRelationDescription = user.classType(relationshipName: "profileSet")
         XCTAssertNotNil(profileRelationDescription)
         XCTAssertTrue(profileRelationDescription == Profile.self)
+    }
+
+    func testCoreData_User_HasRelationshipToManyWith_profileSet() {
+        let backgroudContext = coreDataStack.newBackgroundContext
+        let userTypeStr = String(describing: User.self)
+        XCTAssertEqual(userTypeStr, "User")
+
+        let userEntity = NSEntityDescription.entity(forEntityName: userTypeStr, in: backgroudContext)
+        XCTAssertNotNil(userEntity)
+        let user = NSManagedObject.init(entity: userEntity!, insertInto: backgroudContext)
+        XCTAssertNotNil(user)
+
+        let isToMany = user.isToMany(relationshipName: "profileSet")
+        XCTAssertTrue(isToMany)
     }
 
     func testCoreData_Profile_HasNoRelationshipToManyWith_anyRelationshipName() {
