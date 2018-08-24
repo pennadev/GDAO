@@ -15,7 +15,6 @@ import CwlPreconditionTesting
 class TestParserJSONToCoreData: XCTestCase {
     private var coreDataStack: CoreDataStack!
 
-
     override func setUp() {
         super.setUp()
         coreDataStack = CoreDataStack.init(modelName: "GDAO", persistentType: .inMemory)

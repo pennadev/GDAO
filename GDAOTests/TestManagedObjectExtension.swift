@@ -123,7 +123,6 @@ class TestManagedObjectExtension: XCTestCase {
         XCTAssertNotEqual(exception, nil)
     }
 
-
     func testCoreData_User_HasNoRelationshipToManyWith_anyRelationshipName() {
         let backgroudContext = coreDataStack.newBackgroundContext
         let userTypeStr = String(describing: User.self)
