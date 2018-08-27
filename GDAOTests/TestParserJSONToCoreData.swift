@@ -111,8 +111,9 @@ class TestParserJSONToCoreData: XCTestCase {
 
         let expect = expectation(description: "ExpectParserAsyncOperation")
         let jsonResult = loadJsonResult()
+
         var users: [Any]?
-            parser.parseAsync([jsonResult], rootType: User.self) { value in
+        parser.parseAsync([jsonResult], rootType: User.self) { value in
             users = value
             expect.fulfill()
         }
