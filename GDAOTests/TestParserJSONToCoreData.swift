@@ -75,7 +75,7 @@ class TestParserJSONToCoreData: XCTestCase {
         XCTAssertNotNil(parser)
 
         let jsonResult = loadJsonResult()
-        let users = parser.parse([jsonResult], rootType: User.self)
+        let users: [Any]? = parser.parse([jsonResult], rootType: User.self)
         XCTAssertNotNil(users)
         XCTAssertFalse(users!.isEmpty)
         XCTAssertTrue(users!.count == 1)
