@@ -9,6 +9,9 @@
 import Foundation
 import CoreData
 
+enum DAOError<C: NSFetchRequestResult, T: NSManagedObject>: Error {
+    case casting(requester: [C], requestedType: T.Type)
+}
 
 class DAOCoreData {
     private let managedObjectContext: NSManagedObjectContext
