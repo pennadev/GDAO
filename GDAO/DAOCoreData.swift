@@ -26,12 +26,12 @@ class DAOCoreData {
         }
     }
 
-    func fetch<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, sorts: [NSSortDescriptor]? = nil) -> C? {
-        let objects  = fetchAll(entityType: entityType, predicate: predicate, sorts: sorts, fetchLimit: 1)
+    func fetch<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, sorts: [NSSortDescriptor]? = nil) throws -> C? {
+        let objects = try fetchAll(entityType: entityType, predicate: predicate, sorts: sorts, fetchLimit: 1)
         return objects.first
     }
 
-    func fetchAll<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, sorts: [NSSortDescriptor]? = nil, batchSize: Int? = nil, fetchLimit: Int? = nil) -> [C] {
+    func fetchAll<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, sorts: [NSSortDescriptor]? = nil, batchSize: Int? = nil, fetchLimit: Int? = nil) throws -> [C] {
         let typeStr = String(describing: entityType)
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: typeStr)
 
@@ -45,45 +45,41 @@ class DAOCoreData {
         }
 
         fetchRequest.predicate = predicate
-        let objects: [C]?
-        do {
-            objects = try managedObjectContext.fetch(fetchRequest) as? [C]
-        } catch {
-            fatalError(error.localizedDescription)
+        let results: [NSFetchRequestResult] = try managedObjectContext.fetch(fetchRequest)
+        guard let objects: [C] = results as? [C] else {
+            throw DAOError.casting(requester: results, requestedType: entityType)
         }
-
-        return objects ?? []
+        return objects
     }
 
     // uniqueIdentifiers: (key, val) pair to identify uniquelly an object
-    func fetch<C: NSManagedObject>(entityType: C.Type, uniqueIdentifiers: [String: NSObject]) -> C? {
-        let allObjects = fetchAll(entityType: entityType, uniqueIdentifiers: uniqueIdentifiers, fetchLimit: 1)
+    func fetch<C: NSManagedObject>(entityType: C.Type, uniqueIdentifiers: [String: NSObject]) throws -> C? {
+        let allObjects = try fetchAll(entityType: entityType, uniqueIdentifiers: uniqueIdentifiers, fetchLimit: 1)
         return allObjects?.first
     }
 
-    func fetchAll<C: NSManagedObject>(entityType: C.Type, uniqueIdentifiers: [String: NSObject], fetchLimit: Int? = nil) -> [C]? {
+    func fetchAll<C: NSManagedObject>(entityType: C.Type, uniqueIdentifiers: [String: NSObject], sorts: [NSSortDescriptor]? = nil, batchSize: Int? = nil, fetchLimit: Int? = nil) throws -> [C]? {
         guard uniqueIdentifiers.isEmpty == false else {
             fatalError("Please provide Unique Identifers for fetch in classType: \(entityType)")
         }
 
-        let sortDescr = [NSSortDescriptor(key: uniqueIdentifiers.keys.first, ascending: true)]
         let predicateArray: [NSPredicate] = uniqueIdentifiers.compactMap() { (key, value) in
             let pred = NSPredicate(format: "%K == %@", key, value)
             return pred
         }
 
         let predicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicateArray)
-        let allObjects = fetchAll(entityType: entityType, predicate: predicate, sorts: sortDescr, fetchLimit: fetchLimit)
+        let allObjects = try fetchAll(entityType: entityType, predicate: predicate, sorts: sorts, batchSize: batchSize, fetchLimit: fetchLimit)
         return allObjects
     }
 
     // CREATE
-    func insert<C: NSManagedObject>(entityType: C.Type) -> C {
+    func insert<C: NSManagedObject>(entityType: C.Type) throws -> C {
         let typeStr = String(describing: entityType)
         let managedObject = NSEntityDescription.insertNewObject(forEntityName: typeStr, into: managedObjectContext)
 
         guard let managedObjectC = managedObject as? C else {
-            fatalError("NSManagedObject: \(managedObject) cannot be casted to classType: \(typeStr)")
+            throw DAOError.casting(requester: [managedObject], requestedType: entityType)
         }
 
         return managedObjectC
@@ -94,12 +90,10 @@ class DAOCoreData {
         managedObjectContext.delete(managedObject)
     }
 
-    func deleteAll<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, deleteUsingPersistentCoordinator: Bool = false) -> Void {
+    func deleteAll<C: NSManagedObject>(entityType: C.Type, predicate: NSPredicate? = nil, deleteUsingPersistentCoordinator: Bool = false) throws -> Void {
         let typeStr = String(describing: entityType)
-        let entity = NSEntityDescription.entity(forEntityName: typeStr, in: managedObjectContext)
 
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
-        fetchRequest.entity = entity
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: typeStr)
         fetchRequest.includesPropertyValues = false
 
         if let predicate = predicate {
@@ -109,19 +103,15 @@ class DAOCoreData {
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         deleteRequest.resultType = .resultTypeObjectIDs
 
-        do {
-            let result: NSBatchDeleteResult?
-            if deleteUsingPersistentCoordinator {
-                result = try managedObjectContext.persistentStoreCoordinator?.execute(deleteRequest, with: managedObjectContext) as? NSBatchDeleteResult
-            } else {
-                result = try managedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
-            }
-            if let objectIDArray = result?.result as? [NSManagedObjectID], objectIDArray.isEmpty == false {
-                let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: objectIDArray]
-                NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [managedObjectContext])
-            }
-        } catch {
-            fatalError(error.localizedDescription)
+        let result: NSBatchDeleteResult?
+        if deleteUsingPersistentCoordinator {
+            result = try managedObjectContext.persistentStoreCoordinator?.execute(deleteRequest, with: managedObjectContext) as? NSBatchDeleteResult
+        } else {
+            result = try managedObjectContext.execute(deleteRequest) as? NSBatchDeleteResult
+        }
+        if let objectIDArray = result?.result as? [NSManagedObjectID], objectIDArray.isEmpty == false {
+            let changes: [AnyHashable: Any] = [NSDeletedObjectsKey: objectIDArray]
+            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [managedObjectContext])
         }
     }
 }

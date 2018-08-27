@@ -75,13 +75,17 @@ class TestParserJSONToCoreData: XCTestCase {
         XCTAssertNotNil(parser)
 
         let jsonResult = loadJsonResult()
-        let users: [Any]? = parser.parse([jsonResult], rootType: User.self)
-        XCTAssertNotNil(users)
-        XCTAssertFalse(users!.isEmpty)
-        XCTAssertTrue(users!.count == 1)
-        let typeFirst = type(of: users!.first!)
-        XCTAssertNotNil(typeFirst)
-        XCTAssertTrue(typeFirst == User.self)
+        do {
+            let users: [Any]? = try parser.parse([jsonResult], rootType: User.self)
+            XCTAssertNotNil(users)
+            XCTAssertFalse(users!.isEmpty)
+            XCTAssertTrue(users!.count == 1)
+            let typeFirst = type(of: users!.first!)
+            XCTAssertNotNil(typeFirst)
+            XCTAssertTrue(typeFirst == User.self)
+        } catch {
+            XCTFail()
+        }
     }
 
     func test_ParseAsyncUserWithProfiles_parsedValueIsArrayWithOneObjectUserType() {
@@ -125,5 +129,8 @@ class TestParserJSONToCoreData: XCTestCase {
         let typeFirst = type(of: users!.first!)
         XCTAssertNotNil(typeFirst)
         XCTAssertTrue(typeFirst == User.self)
+
+        let user = users!.first as! User
+        XCTAssertTrue(user.profileSet?.count == 3)
     }
 }

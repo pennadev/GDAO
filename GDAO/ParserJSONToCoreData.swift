@@ -71,29 +71,34 @@ final class ParserJSONToCoreData {
     }
 
     //MARK: - Public methods
-    func parse<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type) -> [C]? {
-        let parsedManagedObjects = self.addEntityArray(array, modelType: rootType)
+    func parse<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type) throws -> [C]? {
+        let parsedManagedObjects = try addEntityArray(array, modelType: rootType)
         return parsedManagedObjects
     }
 
     func parseAsync<C: NSManagedObject>(_ array: [[String: NSObject]], rootType: C.Type, completion: @escaping ([C]?) -> Void) {
         daoBase.perform { [weak self] in
-            let parsedManagedObjects = self?.parse(array, rootType: rootType)
+            let parsedManagedObjects: [C]?
+            do {
+                parsedManagedObjects = try self?.parse(array, rootType: rootType)
+            } catch {
+                parsedManagedObjects = nil
+            }
             completion(parsedManagedObjects)
         }
     }
 
     // MARK: - Private/Fileprivate methods
     // MARK: AddEntity methods
-    private func addEntityArray<C: NSManagedObject>(_ entities: [[String: NSObject]], modelType: C.Type) -> [C] {
-        let cdArray: [C] = entities.compactMap { entity in
-            let childObj = addEntity(entity, modelType: modelType)
+    private func addEntityArray<C: NSManagedObject>(_ entities: [[String: NSObject]], modelType: C.Type) throws -> [C] {
+        let cdArray: [C] = try entities.compactMap { entity in
+            let childObj = try addEntity(entity, modelType: modelType)
             return childObj
         }
         return cdArray
     }
 
-    private func addEntity<C: NSManagedObject>(_ jsonEntity: [String: NSObject], modelType: C.Type) -> C? {
+    private func addEntity<C: NSManagedObject>(_ jsonEntity: [String: NSObject], modelType: C.Type) throws -> C? {
         guard jsonEntity.isEmpty == false else {
             return nil
         }
@@ -112,20 +117,20 @@ final class ParserJSONToCoreData {
         }
 
         let model: C
-        if let fetchedModel = daoBase.fetch(entityType: modelType, uniqueIdentifiers: identifiersDic) {
+        if let fetchedModel = try daoBase.fetch(entityType: modelType, uniqueIdentifiers: identifiersDic) {
             model = fetchedModel
         } else {
-            model = daoBase.insert(entityType: modelType)
+            model = try daoBase.insert(entityType: modelType)
         }
 
         let allPropertiesKeySet: Set<String> = Set(model.entity.propertiesByName.keys)
         let relationshipsKeySet: Set<String> = Set(model.entity.relationshipsByName.keys)
         let propertiesKeySet: Set<String> = allPropertiesKeySet.subtracting(relationshipsKeySet)
 
-        jsonEntity.forEach{ (jsonPropertyName, value) in
+        try jsonEntity.forEach{ (jsonPropertyName, value) in
             let adjustedPropertyNameToCoreData = delegate.adjust(propertyName: jsonPropertyName, for: modelType)
             if relationshipsKeySet.contains(adjustedPropertyNameToCoreData) {
-                guard let relationValue = createRelation(propertyValue: value, relationshipClassName: adjustedPropertyNameToCoreData, parent: model) else {
+                guard let relationValue = try createRelation(propertyValue: value, relationshipClassName: adjustedPropertyNameToCoreData, parent: model) else {
                     fatalError("Missing property:\(adjustedPropertyNameToCoreData) in NSManagedObject ClassName:\(modelType)")
                 }
                 model.setValue(relationValue, forKey: adjustedPropertyNameToCoreData)
@@ -139,19 +144,19 @@ final class ParserJSONToCoreData {
         return model
     }
 
-    private func createRelation<C: NSManagedObject>(propertyValue: NSObject, relationshipClassName: String, parent: C) -> NSObject? {
+    private func createRelation<C: NSManagedObject>(propertyValue: NSObject, relationshipClassName: String, parent: C) throws -> NSObject? {
         if let objectToProcess = propertyValue as? [String: NSObject] {
             if parent.isToMany(relationshipName: relationshipClassName) {
-                let entities = union(value: [objectToProcess], relationshipClassName: relationshipClassName, parent: parent)
+                let entities = try union(value: [objectToProcess], relationshipClassName: relationshipClassName, parent: parent)
                 return entities
             } else {
                 let type = parent.classType(relationshipName: relationshipClassName)
-                let entity = addEntity(objectToProcess, modelType: type)
+                let entity = try addEntity(objectToProcess, modelType: type)
                 return entity
             }
         } else if let objectToProcess = propertyValue as? [[String: NSObject]] {
             if parent.isToMany(relationshipName: relationshipClassName) {
-                let entities = union(value: objectToProcess, relationshipClassName: relationshipClassName, parent: parent)
+                let entities = try union(value: objectToProcess, relationshipClassName: relationshipClassName, parent: parent)
                 return entities
             } else {
                 fatalError("Property:\(relationshipClassName) in NSManagedObject:\(parent)")
@@ -160,9 +165,9 @@ final class ParserJSONToCoreData {
         return nil
     }
 
-    private func union<C: NSManagedObject>(value: [[String: NSObject]], relationshipClassName: String, parent: C) -> NSObject? {
+    private func union<C: NSManagedObject>(value: [[String: NSObject]], relationshipClassName: String, parent: C) throws -> NSObject? {
         let type = parent.classType(relationshipName: relationshipClassName)
-        let array = addEntityArray(value, modelType: type)
+        let array = try addEntityArray(value, modelType: type)
         let newChild = Set(array)
         if let oldRelationSet = parent.value(forKey: relationshipClassName) as? Set<NSManagedObject> {
             return newChild.union(oldRelationSet) as NSSet
