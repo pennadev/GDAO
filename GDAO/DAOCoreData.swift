@@ -20,7 +20,7 @@ class DAOCoreData {
         self.managedObjectContext = managedObjectContext
     }
 
-    func perform(_ completion: @escaping ()->Void) {
+    func perform(_ completion: @escaping () ->Void) {
         managedObjectContext.perform {
             completion()
         }
