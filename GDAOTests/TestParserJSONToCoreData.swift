@@ -57,7 +57,7 @@ class TestParserJSONToCoreData: XCTestCase {
         XCTAssertNotNil(privateContext)
 
         class DelegateParser: ParserDelegate {
-            func uniqueIds(for modelType: NSManagedObject.Type) -> [String] {
+            func findPrimaryKeys(for modelType: NSManagedObject.Type) throws -> Set<String> {
                 if modelType == Profile.self {
                     return ["id"]
                 } else if modelType == User.self {
@@ -96,7 +96,7 @@ class TestParserJSONToCoreData: XCTestCase {
         XCTAssertNotNil(privateContext)
 
         class DelegateParser: ParserDelegate {
-            func uniqueIds(for modelType: NSManagedObject.Type) -> [String] {
+            func findPrimaryKeys(for modelType: NSManagedObject.Type) throws -> Set<String> {
                 if modelType == Profile.self {
                     return ["id"]
                 } else if modelType == User.self {

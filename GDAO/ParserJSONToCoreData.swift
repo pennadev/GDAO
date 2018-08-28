@@ -9,8 +9,14 @@
 import Foundation
 import CoreData
 
+enum ParserJSONToCoreDataError: Error {
+    case missingDelegate
+    case missingIds(modelType: NSManagedObject.Type)
+    case failCreateRellation(className: String, inParent: NSManagedObject)
+}
+
 protocol ParserDelegate: class {
-    func uniqueIds(for modelType: NSManagedObject.Type) -> [String]
+    func findPrimaryKeys(for modelType: NSManagedObject.Type) throws -> Set<String>
     func adjust(propertyName: String, for modelType: NSManagedObject.Type) -> String
     func adjust(propertyValue: NSObject, propertyClassName: String, for model: NSManagedObject) -> NSObject?
 }
@@ -33,9 +39,13 @@ final class ParserJSONToCoreData {
             self.delegate = delegate
         }
 
-        func uniqueIds(for modelType: NSManagedObject.Type) -> [String] {
-            guard let ids = delegate?.uniqueIds(for: modelType) else {
-                fatalError("Check delegate: \(delegate.debugDescription), missing identifiers in NSManagedObject ClassName:\(modelType)")
+        func findPrimaryKeys(for modelType: NSManagedObject.Type) throws -> Set<String> {
+            guard let ids = try delegate?.findPrimaryKeys(for: modelType) else {
+                throw ParserJSONToCoreDataError.missingDelegate
+            }
+
+            guard ids.isEmpty == false else {
+                throw ParserJSONToCoreDataError.missingIds(modelType: modelType)
             }
             return ids
         }
@@ -103,11 +113,7 @@ final class ParserJSONToCoreData {
             return nil
         }
 
-        let identifiers = delegate.uniqueIds(for: modelType)
-        guard identifiers.isEmpty == false else {
-            fatalError("Missing identifiers in NSManagedObject ClassName:\(modelType)")
-        }
-
+        let identifiers = try delegate.findPrimaryKeys(for: modelType)
         let identifiersDic = identifiers.reduce([String: NSObject]()) { (result, jsonPropertyName) in
             let coreDataPropertyName: String = delegate.adjust(propertyName: jsonPropertyName, for: modelType)
             
@@ -130,14 +136,10 @@ final class ParserJSONToCoreData {
         try jsonEntity.forEach{ (jsonPropertyName, value) in
             let adjustedPropertyNameToCoreData = delegate.adjust(propertyName: jsonPropertyName, for: modelType)
             if relationshipsKeySet.contains(adjustedPropertyNameToCoreData) {
-                guard let relationValue = try createRelation(propertyValue: value, relationshipClassName: adjustedPropertyNameToCoreData, parent: model) else {
-                    fatalError("Missing property:\(adjustedPropertyNameToCoreData) in NSManagedObject ClassName:\(modelType)")
-                }
+                let relationValue = try createRelation(propertyValue: value, relationshipClassName: adjustedPropertyNameToCoreData, parent: model)
                 model.setValue(relationValue, forKey: adjustedPropertyNameToCoreData)
             } else if propertiesKeySet.contains(adjustedPropertyNameToCoreData) {
-                guard let propertyValue = delegate.adjust(propertyValue: value, propertyClassName: adjustedPropertyNameToCoreData, for: model)  else {
-                    fatalError("Adjusting property:\(adjustedPropertyNameToCoreData) in NSManagedObject ClassName:\(modelType)")
-                }
+                let propertyValue = delegate.adjust(propertyValue: value, propertyClassName: adjustedPropertyNameToCoreData, for: model)
                 model.setValue(propertyValue, forKey: adjustedPropertyNameToCoreData)
             }
         }
@@ -159,13 +161,14 @@ final class ParserJSONToCoreData {
                 let entities = try union(value: objectToProcess, relationshipClassName: relationshipClassName, parent: parent)
                 return entities
             } else {
-                fatalError("Property:\(relationshipClassName) in NSManagedObject:\(parent)")
+                throw ParserJSONToCoreDataError.failCreateRellation(className: relationshipClassName, inParent: parent)
             }
+        } else {
+            throw ParserJSONToCoreDataError.failCreateRellation(className: relationshipClassName, inParent: parent)
         }
-        return nil
     }
 
-    private func union<C: NSManagedObject>(value: [[String: NSObject]], relationshipClassName: String, parent: C) throws -> NSObject? {
+    private func union<C: NSManagedObject>(value: [[String: NSObject]], relationshipClassName: String, parent: C) throws -> NSObject {
         let type = parent.classType(relationshipName: relationshipClassName)
         let array = try addEntityArray(value, modelType: type)
         let newChild = Set(array)
