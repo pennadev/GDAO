@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 enum DAOError<C: NSFetchRequestResult, T: NSManagedObject>: Error {
-    case casting(requester: [C], requestedType: T.Type)
+    case castFail(requester: [C], requestedType: T.Type)
 }
 
 class DAOCoreData {
@@ -47,7 +47,7 @@ class DAOCoreData {
         fetchRequest.predicate = predicate
         let results: [NSFetchRequestResult] = try managedObjectContext.fetch(fetchRequest)
         guard let objects: [C] = results as? [C] else {
-            throw DAOError.casting(requester: results, requestedType: entityType)
+            throw DAOError.castFail(requester: results, requestedType: entityType)
         }
         return objects
     }
@@ -79,7 +79,7 @@ class DAOCoreData {
         let managedObject = NSEntityDescription.insertNewObject(forEntityName: typeStr, into: managedObjectContext)
 
         guard let managedObjectC = managedObject as? C else {
-            throw DAOError.casting(requester: [managedObject], requestedType: entityType)
+            throw DAOError.castFail(requester: [managedObject], requestedType: entityType)
         }
 
         return managedObjectC
