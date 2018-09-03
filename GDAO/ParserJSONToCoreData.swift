@@ -13,6 +13,7 @@ enum ParserJSONToCoreDataError: Error {
     case missingDelegate
     case missingIds(modelType: NSManagedObject.Type)
     case failCreateRellation(className: String, inParent: NSManagedObject)
+    case unknowDataTypeForRellation(className: String, inParent: NSManagedObject)
 }
 
 protocol ParserDelegate: class {
@@ -164,7 +165,7 @@ final class ParserJSONToCoreData {
                 throw ParserJSONToCoreDataError.failCreateRellation(className: relationshipClassName, inParent: parent)
             }
         } else {
-            throw ParserJSONToCoreDataError.failCreateRellation(className: relationshipClassName, inParent: parent)
+            throw ParserJSONToCoreDataError.unknowDataTypeForRellation(className: relationshipClassName, inParent: parent)
         }
     }
 
