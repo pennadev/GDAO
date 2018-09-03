@@ -52,22 +52,17 @@ final class ParserJSONToCoreData {
         }
 
         func adjust(propertyName: String, for modelType: NSManagedObject.Type) -> String {
-            let adjustedPropertyNameToCoreData: String
-            if let coreDataPropertyName = delegate?.adjust(propertyName: propertyName, for: modelType) {
-                adjustedPropertyNameToCoreData = coreDataPropertyName
-            } else {
-                adjustedPropertyNameToCoreData = propertyName
+            guard let adjustedCoreDataPropertyName = delegate?.adjust(propertyName: propertyName, for: modelType) else {
+                return propertyName
             }
-
-            return adjustedPropertyNameToCoreData
+            return adjustedCoreDataPropertyName
         }
 
         func adjust(propertyValue: NSObject, propertyClassName: String, for model: NSManagedObject) -> NSObject? {
-            if let adjustedPropertyValue = delegate?.adjust(propertyValue: propertyValue, propertyClassName: propertyClassName, for: model) {
-                return adjustedPropertyValue
-            } else {
+            guard let adjustedPropertyValue = delegate?.adjust(propertyValue: propertyValue, propertyClassName: propertyClassName, for: model) else {
                 return propertyValue
             }
+            return adjustedPropertyValue
         }
     }
 
