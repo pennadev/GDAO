@@ -99,7 +99,7 @@
 		917794D4212595A60041714F = {
 			isa = PBXGroup;
 			children = (
-				917794E0212595A60041714F /* GDAO */,
+				917794E0212595A60041714F /* Classes */,
 				917794EB212595A70041714F /* GDAOTests */,
 				917794DF212595A60041714F /* Products */,
 				2396059B6670C0950B659AAA /* Pods */,
@@ -116,7 +116,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		917794E0212595A60041714F /* GDAO */ = {
+		917794E0212595A60041714F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				917794E1212595A60041714F /* GDAO.h */,
@@ -125,7 +125,7 @@
 				919D9EC2212C8F2C00191E76 /* NSManagedObject+Ext.swift */,
 				917794E2212595A60041714F /* Info.plist */,
 			);
-			path = GDAO;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		917794EB212595A70041714F /* GDAOTests */ = {
