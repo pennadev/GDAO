@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "GDAO"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "The GDAO(G* Data Access Object) provides an abstract interface to CoreData."
 
   # This description is used to generate tags and improve search results.
