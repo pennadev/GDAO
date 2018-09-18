@@ -1,4 +1,9 @@
 [![Build Status](https://travis-ci.org/vadeara/GDAO.svg?branch=master)](https://travis-ci.org/vadeara/GDAO)
+https://img.shields.io/cocoapods/v/GDAO.svg?style=flat
+[![Version](https://img.shields.io/cocoapods/v/GDAO.svg?style=flat)](http://cocoapods.org/pods/GDAO)
+[![License](https://img.shields.io/cocoapods/l/GDAO.svg?style=flat)](http://cocoapods.org/pods/GDAO)
+[![Platform](https://img.shields.io/cocoapods/p/GDAO.svg?style=flat)](http://cocoapods.org/pods/GDAO)
+
 
 # GDAO
 The GDAO(G* Data Access Object) is an project that provides an abstract interface to CoreData and can be extend to support other persistence mechanism. Currently the focus is on CoreData DAO
